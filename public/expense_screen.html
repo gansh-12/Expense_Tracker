@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Expense Tracker</title>
+</head>
+<body>
+    <h2 id="premiumHeader" style="display: none">
+        You are a premium user
+        <button id="showLeaderboardBtn">Show Leaderboard</button>
+    </h2>
+
+    <label><strong>Expenses per page:</strong></label>
+
+    <select id="itemsPerPageSelect">
+        <option value="2">2</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="40">40</option>
+    </select>
+
+    <h3>Add Expense</h3>
+
+    <form onsubmit="addExpense(event)">
+        <label for="amount">Choose Expense Amount (Rs.):</label>
+        <input type="number" name="amount" required>
+        <label for="description">Choose description: </label>
+        <input type="text" name="description" required>
+        <label for="category">Choose a category:</label>
+        <select name="category" required>
+            <option value="Food">Food</option>
+            <option value="Shoping">Shoping</option>
+            <option value="Fuel">Fuel</option>
+            <option value="Others">Others</option>
+        </select>
+        <button>Add Expense</button>
+    </form>
+
+    <h3>Add Income</h3>
+
+    <form onsubmit="addIncome(event)">
+        <label>Enter Income Amount (Rs.):</label>
+        <input type="number" name="amount" required>
+        <label>Description:</label>
+        <input type="text" name="description" required>
+        <label>Category:</label>
+        <select name="category" required>
+            <option value="Salary">Salary</option>
+            <option value="Rent from House">Rent from House</option>
+            <option value="Others">Others</option>
+        </select>
+        <button>Add Income</button>
+    </form>
+
+    <h3 style="font-weight: bold; margin-top: 20px;">Expenses and Income</h4>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="expenseBody"></tbody>
+    </table>
+
+    <div class="pagination">
+        <span id="pageNumbers"></span>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <button onclick="download()">Download File</button>
+    </div>
+
+    <button id="buyPremiumBtn">Buy Premium Membership</button>
+
+    <div id="premiumReports" style="display:none; margin-bottom:20px;">
+        <h3>Reports</h3>
+        <button onclick="loadDailyReport()">Daily Report</button>
+        <button onclick="loadWeeklyReport()">Weekly Report</button>
+        <button onclick="loadMonthlyReport()">Monthly Report</button>
+        <button onclick="loadYearlyReport()">Yearly Report</button>
+        <button onclick="downloadReport()">Download Report</button>
+
+        <div id="reportSection"></div>
+    </div>
+
+    <div id="leaderboardSection", style="margin-top: 30px;"></div>
+
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./expense_script.js"></script>
+</body>
+</html>

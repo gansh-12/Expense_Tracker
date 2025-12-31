@@ -5,12 +5,12 @@ const bcrypt=require('bcrypt');
 
 const User = require('../models/user');
 const Forgotpassword=require('../models/forgotpassword');
-//require("dotenv").config();
+require("dotenv").config();
 
 const client=Sib.ApiClient.instance;
         
 const apiKey=client.authentications["api-key"];
-apiKey.apiKey=process.env.SMTP_API_KEY;
+apiKey.apiKey=process.env.BREVO_API_KEY;
 
 const tranEmailApi=new Sib.TransactionalEmailsApi();
 
@@ -24,7 +24,7 @@ const forgotpassword=async (req,res)=> {
         
             const msg={
                 sender:{
-                    email:'kumarhcem@gmail.com',
+                    email:process.env.EMAIL_FROM,
                     name:'Expense Tracker App'
                 },
                 to:[{email:email}],
@@ -33,15 +33,8 @@ const forgotpassword=async (req,res)=> {
                 htmlContent:`<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`
             }
 
-            tranEmailApi
-                .sendTransacEmail(msg)
-                .then((response) => {
-                    return res.status(200).json({message: 'Link to reset password sent to your mail ', sucess: true})
-                })  
-                .catch((error) => {
-                    throw new Error(error);
-                })
-        
+            await tranEmailApi.sendTransacEmail(msg);
+            return res.status(200).json({message: 'Link to reset password sent to your mail ', sucess: true});        
         } else {
             throw new Error('User doesnt exist');
         }
